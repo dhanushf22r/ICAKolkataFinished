@@ -1,0 +1,1219 @@
+config:
+  conversationOwner: 00918335069981
+  scriptLanguageVersion: 1
+  scriptVersion: 1
+  defaultDelay: 900
+  lists:
+    positive-answers:
+      items:
+        - Ja
+    negative-answers:
+      source: negative-answers.yml
+  errorMessage: 'Sorry, you have entered a wrong value. Please enter correct value.'
+flows:
+  - id: mainmenu
+    description: Entry flow for the bot
+    steps:
+      - !<!entry> 
+        id: Entry-1
+        actions: []
+        clientActions: []
+        matches:
+          - Hey
+        allowRestart: true
+        isCaseSensitive: true
+        doCatchAll: true
+      - !<!text> 
+        id: WelcomeText
+        actions: []
+        clientActions: []
+        message: "Welcome to ICA Edu Skills, India's No. 1 Accounts, Finance & Taxation Training Institute. \n\n*Quick Highlights*\U0001F64C\n\n1️⃣ 22+ years of Educations Excellence.\n2️⃣ Pioneer in Job Guarantee Courses.\n3️⃣ 5 Lakh+ students trained & placed.\n4️⃣ Training 2 lakh+ people every year.\n5️⃣ 1000+ Vacancies every week.\n\nSpeak to our career advisor Now:\n \n*Classroom Training:* https://bit.ly/Offline-Course-Enquiry\n\n*Online Training:* https://bit.ly/Online-Course-Enquiry"
+      - !<!text> 
+        id: Introduction Video
+        actions: []
+        clientActions: []
+        message: 'https://www.youtube.com/watch?v=KIKL0AK-skw'
+      - !<!text> 
+        id: Lead Generation
+        actions: []
+        clientActions: []
+        message: |-
+          Please introduce yourself to help us guide you better
+
+          Could you please enter your First Name?
+      - !<!input> 
+        id: Name
+        actions: []
+        clientActions: []
+        var: fName
+        vars:
+          fName.type: $$type
+          fName.text: $$text
+          fName.media.name: $$mediaName
+          fName.media.uri: $$mediaUri
+          fName.media.mimetype: $$mediaMimeType
+          fName.location.latitude: $$locationLatitude
+          fName.location.longitude: $$locationLongitude
+          fName.location.label: $$locationLabel
+          fName.location.searchquery: $$locationSearchQuery
+          fName.location.radius: $$locationRadius
+        scope: Session
+      - !<!text> 
+        id: Text-1
+        actions: []
+        clientActions: []
+        message: 'Last name too, please?'
+      - !<!input> 
+        id: Input-1
+        actions: []
+        clientActions: []
+        var: lName
+        scope: Session
+        vars:
+          lName.type: $$type
+          lName.text: $$text
+          lName.media.name: $$mediaName
+          lName.media.uri: $$mediaUri
+          lName.media.mimetype: $$mediaMimeType
+          lName.location.latitude: $$locationLatitude
+          lName.location.longitude: $$locationLongitude
+          lName.location.label: $$locationLabel
+          lName.location.searchquery: $$locationSearchQuery
+          lName.location.radius: $$locationRadius
+      - !<!text> 
+        id: Emailtxt
+        actions: []
+        clientActions: []
+        message: Could you please Enter your Email Address?
+      - !<!input> 
+        id: Email
+        actions: []
+        clientActions: []
+        var: Email
+        vars:
+          Email.type: $$type
+          Email.text: $$text
+          Email.media.name: $$mediaName
+          Email.media.uri: $$mediaUri
+          Email.media.mimetype: $$mediaMimeType
+          Email.location.latitude: $$locationLatitude
+          Email.location.longitude: $$locationLongitude
+          Email.location.label: $$locationLabel
+          Email.location.searchquery: $$locationSearchQuery
+          Email.location.radius: $$locationRadius
+        scope: Session
+      - !<!logic> 
+        id: Logic-2
+        actions: []
+        clientActions: []
+        entries:
+          - condition: !<!emailValidator> 
+              var: Email
+            position:
+              cursor: mainmenu.MobileNumbertxt
+          - condition: !<!default> {}
+            position:
+              cursor: mainmenu.Emailtxt
+      - !<!text> 
+        id: MobileNumbertxt
+        actions: []
+        clientActions: []
+        message: >-
+          Thank you very much, also, could you please enter your alternative
+          Mobile no. (If Any) ?
+      - !<!input> 
+        id: Mobile
+        actions: []
+        clientActions: []
+        var: Mobile
+        vars:
+          Mobile.type: $$type
+          Mobile.text: $$text
+          Mobile.media.name: $$mediaName
+          Mobile.media.uri: $$mediaUri
+          Mobile.media.mimetype: $$mediaMimeType
+          Mobile.location.latitude: $$locationLatitude
+          Mobile.location.longitude: $$locationLongitude
+          Mobile.location.label: $$locationLabel
+          Mobile.location.searchquery: $$locationSearchQuery
+          Mobile.location.radius: $$locationRadius
+      - !<!text> 
+        id: Main Menu
+        actions: []
+        clientActions: []
+        message: |-
+          How can we help you?
+
+          1️⃣ Course Enquiry
+          2️⃣ General Enquiry
+
+          Press 1 for course enquiry, press 2 for general enquiry
+      - !<!input> 
+        id: Menu
+        actions: []
+        clientActions: []
+        var: Menu
+        vars:
+          Menu.type: $$type
+          Menu.text: $$text
+          Menu.media.name: $$mediaName
+          Menu.media.uri: $$mediaUri
+          Menu.media.mimetype: $$mediaMimeType
+          Menu.location.latitude: $$locationLatitude
+          Menu.location.longitude: $$locationLongitude
+          Menu.location.label: $$locationLabel
+          Menu.location.searchquery: $$locationSearchQuery
+          Menu.location.radius: $$locationRadius
+      - !<!logic> 
+        id: Logic-1
+        actions: []
+        clientActions: []
+        entries:
+          - condition: !<!equals> 
+              var: Menu
+              tests:
+                - '1'
+              isCaseSensitive: false
+            position:
+              cursor: Pressed-1.TrainingMode
+          - condition: !<!equals> 
+              var: Menu
+              tests:
+                - '2'
+              isCaseSensitive: false
+            position:
+              cursor: Pressed-2.Speaktous
+          - condition: !<!default> {}
+            position:
+              cursor: mainmenu.Main Menu
+  - id: Pressed-1
+    description: Kindly type your city name in full.?
+    steps:
+      - !<!text> 
+        id: TrainingMode
+        actions: []
+        clientActions: []
+        message: |-
+          Select prefer mode of training
+
+          1️⃣ Online 
+          2️⃣ Classroom
+
+          Type 1 for an online course, type 2 for classroom course
+      - !<!input> 
+        id: TrainingMode1
+        actions: []
+        clientActions: []
+        var: TrainingMode1
+        vars:
+          TrainingMode1.type: $$type
+          TrainingMode1.text: $$text
+          TrainingMode1.media.name: $$mediaName
+          TrainingMode1.media.uri: $$mediaUri
+          TrainingMode1.media.mimetype: $$mediaMimeType
+          TrainingMode1.location.latitude: $$locationLatitude
+          TrainingMode1.location.longitude: $$locationLongitude
+          TrainingMode1.location.label: $$locationLabel
+          TrainingMode1.location.searchquery: $$locationSearchQuery
+          TrainingMode1.location.radius: $$locationRadius
+      - !<!logic> 
+        id: Logic-1
+        actions: []
+        clientActions: []
+        entries:
+          - condition: !<!equals> 
+              var: TrainingMode1
+              tests:
+                - '1'
+              isCaseSensitive: false
+            position:
+              cursor: Pressed-1.CourseTypetext
+          - condition: !<!equals> 
+              var: TrainingMode1
+              tests:
+                - '2'
+              isCaseSensitive: false
+            position:
+              cursor: stateSelect.Text-1
+          - condition: !<!default> {}
+            position:
+              cursor: Pressed-1.TrainingMode
+      - !<!text> 
+        id: CourseTypetext
+        actions: []
+        clientActions: []
+        message: |2-
+           Select course type
+
+          A. Job Assurance Courses
+          B. Short Term Courses
+
+          Press A for Job Assurance Courses, 
+          Press B for Short Term Courses
+      - !<!input> 
+        id: CourseType
+        actions: []
+        clientActions: []
+        var: CourseType
+        vars:
+          CourseType.type: $$type
+          CourseType.text: $$text
+          CourseType.media.name: $$mediaName
+          CourseType.media.uri: $$mediaUri
+          CourseType.media.mimetype: $$mediaMimeType
+          CourseType.location.latitude: $$locationLatitude
+          CourseType.location.longitude: $$locationLongitude
+          CourseType.location.label: $$locationLabel
+          CourseType.location.searchquery: $$locationSearchQuery
+          CourseType.location.radius: $$locationRadius
+        scope: Session
+      - !<!logic> 
+        id: Logic-3
+        actions: []
+        clientActions: []
+        entries:
+          - condition: !<!equals> 
+              var: CourseType
+              tests:
+                - A
+                - '1'
+              isCaseSensitive: false
+            position:
+              cursor: Pressed-1.OnlBrochrq
+          - condition: !<!equals> 
+              var: CourseType
+              tests:
+                - B
+                - '2'
+              isCaseSensitive: false
+            position:
+              cursor: Pressed-1.OnlBrochrq
+          - condition: !<!default> {}
+            position:
+              cursor: Pressed-1.CourseTypetext
+      - !<!text> 
+        id: Text-2
+        actions: []
+        clientActions: []
+        message: Kindly type your city name in full?
+      - !<!input> 
+        id: City
+        actions: []
+        clientActions: []
+        var: Input-1
+        vars:
+          Input-1.type: $$type
+          Input-1.text: $$text
+          Input-1.media.name: $$mediaName
+          Input-1.media.uri: $$mediaUri
+          Input-1.media.mimetype: $$mediaMimeType
+          Input-1.location.latitude: $$locationLatitude
+          Input-1.location.longitude: $$locationLongitude
+          Input-1.location.label: $$locationLabel
+          Input-1.location.searchquery: $$locationSearchQuery
+          Input-1.location.radius: $$locationRadius
+      - !<!text> 
+        id: OnlBrochrq
+        actions: []
+        clientActions: []
+        message: |-
+          Would you like to get our brochure for online courses?
+
+          1️⃣ Yes
+          2️⃣ No
+
+          Type Yes to download, type No to exit.
+      - !<!input> 
+        id: OnlBro
+        actions: []
+        clientActions: []
+        var: OnlBro
+        vars:
+          OnlBro.type: $$type
+          OnlBro.text: $$text
+          OnlBro.media.name: $$mediaName
+          OnlBro.media.uri: $$mediaUri
+          OnlBro.media.mimetype: $$mediaMimeType
+          OnlBro.location.latitude: $$locationLatitude
+          OnlBro.location.longitude: $$locationLongitude
+          OnlBro.location.label: $$locationLabel
+          OnlBro.location.searchquery: $$locationSearchQuery
+          OnlBro.location.radius: $$locationRadius
+      - !<!logic> 
+        id: Logic-2
+        actions: []
+        clientActions: []
+        entries:
+          - condition: !<!equals> 
+              var: OnlBro
+              tests:
+                - '1'
+                - 'Yes'
+                - 'yes'
+              isCaseSensitive: false
+            position:
+              cursor: Pressed-1.Text-1
+          - condition: !<!equals> 
+              var: OnlBro
+              tests:
+                - '2'
+                - 2️⃣
+                - 'No'
+              isCaseSensitive: false
+            position:
+              cursor: Handover.Text-1
+          - condition: !<!default> {}
+            position:
+              cursor: Pressed-1.OnlBrochrq
+      - !<!text> 
+        id: Text-1
+        actions: []
+        clientActions: []
+        message: Download online course brochure from this link - shorturl.at/cwEFL
+      - !<!routing_mutation> 
+        id: RoutingMutation-1
+        actions: []
+        clientActions: []
+        mutations:
+          - !<!disable_component> 
+            componentId: CmBot
+        context: {}
+      - !<!end_session> 
+        id: Terminate-1
+        actions: []
+        clientActions: []
+        resetRouter: false
+  - id: Pressed-2
+    description: ''
+    steps:
+      - !<!text> 
+        id: Speaktous
+        actions: []
+        clientActions: []
+        message: |2-
+           Speak to us
+
+          A. Call
+          B. Email
+
+          Kindly Type “Call” to initiate call, type “Email” to get our email id.
+      - !<!input> 
+        id: Spk
+        actions: []
+        clientActions: []
+        var: Spk
+        vars:
+          Spk.type: $$type
+          Spk.text: $$text
+          Spk.media.name: $$mediaName
+          Spk.media.uri: $$mediaUri
+          Spk.media.mimetype: $$mediaMimeType
+          Spk.location.latitude: $$locationLatitude
+          Spk.location.longitude: $$locationLongitude
+          Spk.location.label: $$locationLabel
+          Spk.location.searchquery: $$locationSearchQuery
+          Spk.location.radius: $$locationRadius
+      - !<!logic> 
+        id: Logic-1
+        actions: []
+        clientActions: []
+        entries:
+          - condition: !<!equals> 
+              var: Spk
+              tests:
+                - A
+                - Call
+              isCaseSensitive: false
+            position:
+              cursor: Pressed-2.Phone
+          - condition: !<!equals> 
+              var: Spk
+              tests:
+                - Email
+                - B
+              isCaseSensitive: false
+            position:
+              cursor: Pressed-2.Email
+          - condition: !<!default> {}
+            position:
+              cursor: Pressed-2.Speaktous
+      - !<!text> 
+        id: Phone
+        actions: []
+        clientActions: []
+        message: Contact us on 8335069981
+      - !<!text> 
+        id: Email
+        actions: []
+        clientActions: []
+        message: Please reach out to us on crm@icagroup.in
+      - !<!text> 
+        id: Text-1
+        actions:
+          - !<!position> 
+            id: Position-1
+            flowId: Pressed-1
+            stepId: RoutingMutation-1
+        clientActions: []
+        message: Thank you very much!
+  - id: stateSelect
+    description: ''
+    steps:
+      - !<!text> 
+        id: Text-1
+        actions: []
+        clientActions: []
+        message: |
+          Offline course!
+
+          Please select the state you are from the list below.
+
+          1. West Bengal
+          2. Assam
+          3. Bihar
+          4. Karnataka
+          5. Tamil Nadu
+          6. Uttar Pradesh
+          7. Delhi
+          8. Uttaranchal
+          9. Punjab
+          10. Uttarakhand
+          11. Haryana
+          12. Jammu & Kashmir
+          13. Jharkhand
+          14. Maharashtra
+          15. Dadra and Nagar Haveli
+          16. Gujarat
+          17. Kerala
+          18. Telangana
+          19. Odisha
+          20. Rajasthan
+      - !<!input> 
+        id: Input-1
+        actions: []
+        clientActions: []
+        var: stateSelect
+        scope: Session
+        vars:
+          stateSelect.type: $$type
+          stateSelect.text: $$text
+          stateSelect.media.name: $$mediaName
+          stateSelect.media.uri: $$mediaUri
+          stateSelect.media.mimetype: $$mediaMimeType
+          stateSelect.location.latitude: $$locationLatitude
+          stateSelect.location.longitude: $$locationLongitude
+          stateSelect.location.label: $$locationLabel
+          stateSelect.location.searchquery: $$locationSearchQuery
+          stateSelect.location.radius: $$locationRadius
+      - !<!logic> 
+        id: Logic-1
+        actions: []
+        clientActions: []
+        entries:
+          - condition: !<!equals> 
+              var: stateSelect
+              tests:
+                - 1. West Bengal
+                - '1'
+                - west
+                - bengal
+                - west bengal
+              isCaseSensitive: false
+            position:
+              cursor: westBengalCitySelect.Text-1
+          - condition: !<!default> {}
+            position:
+              cursor: stateSelect.Text-2
+      - !<!text> 
+        id: Text-2
+        actions:
+          - !<!position> 
+            id: Position-1
+            flowId: stateSelect
+            stepId: Text-1
+        clientActions: []
+        message: 'You haven''t selected the right option, please try again.'
+      - !<!end_session> 
+        id: Terminate-1
+        actions: []
+        clientActions: []
+        resetRouter: false
+  - id: westBengalCitySelect
+    description: ''
+    steps:
+      - !<!text> 
+        id: Text-1
+        actions: []
+        clientActions: []
+        message: |-
+          West Bengal!
+          Please select the city from the list of cities below.
+
+          1. Kolkata
+          2. 24 Parganas North
+          3. Asansol
+          4. Hooghly
+          5. Rest of West Bengal
+      - !<!input> 
+        id: Input-1
+        actions: []
+        clientActions: []
+        var: westBengalCitySelect
+        scope: Session
+        vars:
+          westBengalCitySelect.type: $$type
+          westBengalCitySelect.text: $$text
+          westBengalCitySelect.media.name: $$mediaName
+          westBengalCitySelect.media.uri: $$mediaUri
+          westBengalCitySelect.media.mimetype: $$mediaMimeType
+          westBengalCitySelect.location.latitude: $$locationLatitude
+          westBengalCitySelect.location.longitude: $$locationLongitude
+          westBengalCitySelect.location.label: $$locationLabel
+          westBengalCitySelect.location.searchquery: $$locationSearchQuery
+          westBengalCitySelect.location.radius: $$locationRadius
+      - !<!logic> 
+        id: Logic-1
+        actions: []
+        clientActions: []
+        entries:
+          - condition: !<!equals> 
+              var: westBengalCitySelect
+              tests:
+                - '1'
+                - Kolkata
+                - 1. Kolkata
+              isCaseSensitive: false
+            position:
+              cursor: WBkolkataCenterSelect.Text-1
+          - condition: !<!equals> 
+              var: westBengalCitySelect
+              tests:
+                - 2. 24 Parganas North
+                - '2'
+                - 24 Parganas North
+              isCaseSensitive: false
+            position:
+              cursor: WB24ParganasNorthCenterSelect.Text-1
+          - condition: !<!equals> 
+              var: westBengalCitySelect
+              tests:
+                - 3. Asansol
+                - '3'
+                - Asansol
+              isCaseSensitive: false
+            position:
+              cursor: WBasansolCenterSelect.Text-1
+          - condition: !<!equals> 
+              var: westBengalCitySelect
+              tests:
+                - 4. Hooghly
+                - Hooghly
+                - '4'
+              isCaseSensitive: false
+            position:
+              cursor: WBhooghlyCenterSelect.Text-1
+          - condition: !<!equals> 
+              var: westBengalCitySelect
+              tests:
+                - 5. Rest of West Bengal
+                - '5'
+                - Rest of West Bengal
+                - Rest
+              isCaseSensitive: false
+            position:
+              cursor: WBrestCenterSelect.Text-1
+          - condition: !<!default> {}
+            position:
+              cursor: westBengalCitySelect.Text-2
+      - !<!text> 
+        id: Text-2
+        actions:
+          - !<!position> 
+            id: Position-1
+            flowId: westBengalCitySelect
+            stepId: Text-1
+        clientActions: []
+        message: 'You haven''t selected the right option, please try again!'
+      - !<!end_session> 
+        id: Terminate-1
+        actions: []
+        clientActions: []
+        resetRouter: false
+  - id: WBkolkataCenterSelect
+    description: ''
+    steps:
+      - !<!text> 
+        id: Text-1
+        actions: []
+        clientActions: []
+        message: |-
+          Kolkata!
+          Please select the center closest to you:
+
+          1. Dalhousie
+          2. Sovabazar
+          3. Exide More (Chowringhee)
+          4. Ultadanga 
+          5. Jadavpur
+          6. Tollygunge
+          7. Ballygunge
+          8. Dunlop
+          9. Barrackpore
+      - !<!input> 
+        id: Input-1
+        actions: []
+        clientActions: []
+        var: kolkataCenter
+        scope: Session
+        vars:
+          kolkataCenter.type: $$type
+          kolkataCenter.text: $$text
+          kolkataCenter.media.name: $$mediaName
+          kolkataCenter.media.uri: $$mediaUri
+          kolkataCenter.media.mimetype: $$mediaMimeType
+          kolkataCenter.location.latitude: $$locationLatitude
+          kolkataCenter.location.longitude: $$locationLongitude
+          kolkataCenter.location.label: $$locationLabel
+          kolkataCenter.location.searchquery: $$locationSearchQuery
+          kolkataCenter.location.radius: $$locationRadius
+      - !<!logic> 
+        id: Logic-1
+        actions: []
+        clientActions: []
+        entries:
+          - condition: !<!equals> 
+              var: kolkataCenter
+              tests:
+                - Dalhousie
+                - '1'
+              isCaseSensitive: false
+            position:
+              cursor: WBkolkataCenterSelect.Dalhousie WebRequest
+          - condition: !<!equals> 
+              var: kolkataCenter
+              tests:
+                - '2'
+                - Sovabazar
+              isCaseSensitive: false
+            position:
+              cursor: WBkolkataCenterSelect.Sovabazar WebRequest
+          - condition: !<!equals> 
+              var: kolkataCenter
+              tests:
+                - '3'
+                - Exide More (Chowringhee)
+              isCaseSensitive: false
+            position:
+              cursor: WBkolkataCenterSelect.Exide More (Chowringhee) WebRequest
+          - condition: !<!equals> 
+              var: kolkataCenter
+              tests:
+                - '4'
+                - Ultadanga
+              isCaseSensitive: false
+            position:
+              cursor: WBkolkataCenterSelect.Ultadanga WebRequest
+          - condition: !<!equals> 
+              var: kolkataCenter
+              tests:
+                - '5'
+                - Jadavpurwantedly
+              isCaseSensitive: false
+            position:
+              cursor: WBkolkataCenterSelect.Jadavpur WebRequest
+          - condition: !<!equals> 
+              var: kolkataCenter
+              tests:
+                - '6'
+                - Tollygunge
+              isCaseSensitive: false
+            position:
+              cursor: WBkolkataCenterSelect.Tollygunge  WebRequest
+          - condition: !<!equals> 
+              var: kolkataCenter
+              tests:
+                - Ballygunge
+                - '7'
+              isCaseSensitive: false
+            position:
+              cursor: WBkolkataCenterSelect.Ballygunge  WebRequest
+          - condition: !<!equals> 
+              var: kolkataCenter
+              tests:
+                - Dunlop
+                - '8'
+              isCaseSensitive: false
+            position:
+              cursor: WBkolkataCenterSelect.Dunlop  WebRequest
+          - condition: !<!equals> 
+              var: kolkataCenter
+              tests:
+                - '9'
+                - Barrackpore
+              isCaseSensitive: false
+            position:
+              cursor: WBkolkataCenterSelect.Barrackpore WebRequest
+          - condition: !<!default> {}
+            position:
+              cursor: WBkolkataCenterSelect.Text-2
+      - !<!text> 
+        id: Text-2
+        actions:
+          - !<!position> 
+            id: Position-1
+            flowId: WBkolkataCenterSelect
+            stepId: Text-1
+        clientActions: []
+        message: You haven't entered the right option - please try again!
+      - !<!webrequest> 
+        id: Dalhousie WebRequest
+        actions:
+          - !<!position> 
+            id: Position-4
+            flowId: Handover
+            stepId: Text-1
+        clientActions: []
+        retries: 2
+        retryDelay: 1
+        waitForResponse: true
+        request:
+          queryParameters: {}
+          headers: {}
+          url: 'https://thirdpartyapi.extraaedge.com/api/SaveRequest'
+          verifySsl: false
+          method: POST
+          timeout: 60
+          body: |-
+            {
+              "AuthToken": "ICA-06-12-2017",
+              "Source": "ica",
+              "FirstName": "{fName}}",
+              "LastName": "{lName}}",
+              "Email": "{Email}",
+              "MobileNumber": "{{$conversationClientId}}",
+              "State": "West Bengal",
+              "Location": "Kolkata",
+              "Center": "Dalhousie",
+              "Pincode": "700001",
+              "LeadType": "DM",
+              "LeadSource": "Whatsapp",
+              "LeadName": "Whatsapp_Message",
+              "SourceTo": "Offline"
+            }
+        response:
+          extracts: []
+      - !<!webrequest> 
+        id: Sovabazar WebRequest
+        actions:
+          - !<!position> 
+            id: Position-5
+            flowId: Handover
+            stepId: Text-1
+        clientActions: []
+        retries: 0
+        retryDelay: 0
+        waitForResponse: true
+        request:
+          queryParameters: {}
+          headers: {}
+          url: 'https://thirdpartyapi.extraaedge.com/api/SaveRequest'
+          verifySsl: false
+          method: POST
+          timeout: 60
+          body: |-
+            {
+              "AuthToken": "ICA-06-12-2017",
+              "Source": "ica",
+              "FirstName": "{fName}}",
+              "LastName": "{lName}}",
+              "Email": "{Email}",
+              "MobileNumber": "{{$conversationClientId}}",
+              "State": "West Bengal",
+              "Location": "Kolkata",
+              "Center": "Sovabazar",
+              "Pincode": "700001",
+              "LeadType": "DM",
+              "LeadSource": "Whatsapp",
+              "LeadName": "Whatsapp_Message",
+              "SourceTo": "Offline"
+            }
+        response:
+          extracts: []
+      - !<!webrequest> 
+        id: Exide More (Chowringhee) WebRequest
+        actions:
+          - !<!position> 
+            id: Position-6
+            flowId: Handover
+            stepId: Text-1
+        clientActions: []
+        retries: 0
+        retryDelay: 0
+        waitForResponse: true
+        request:
+          queryParameters: {}
+          headers: {}
+          url: 'https://thirdpartyapi.extraaedge.com/api/SaveRequest'
+          verifySsl: false
+          method: POST
+          timeout: 60
+          body: |-
+            {
+              "AuthToken": "ICA-06-12-2017",
+              "Source": "ica",
+              "FirstName": "{fName}}",
+              "LastName": "{lName}}",
+              "Email": "{Email}",
+              "MobileNumber": "{{$conversationClientId}}",
+              "State": "West Bengal",
+              "Location": "Kolkata",
+              "Center": "Exide More",
+              "Pincode": "700001",
+              "LeadType": "DM",
+              "LeadSource": "Whatsapp",
+              "LeadName": "Whatsapp_Message",
+              "SourceTo": "Offline"
+            }
+        response:
+          extracts: []
+      - !<!webrequest> 
+        id: Ultadanga WebRequest
+        actions:
+          - !<!position> 
+            id: Position-7
+            flowId: Handover
+            stepId: Text-1
+        clientActions: []
+        retries: 0
+        retryDelay: 0
+        waitForResponse: true
+        request:
+          queryParameters: {}
+          headers: {}
+          url: 'https://thirdpartyapi.extraaedge.com/api/SaveRequest'
+          verifySsl: false
+          method: POST
+          timeout: 60
+          body: |-
+            {
+              "AuthToken": "ICA-06-12-2017",
+              "Source": "ica",
+              "FirstName": "{fName}}",
+              "LastName": "{lName}}",
+              "Email": "{Email}",
+              "MobileNumber": "{{$conversationClientId}}",
+              "State": "West Bengal",
+              "Location": "Kolkata",
+              "Center": "Ultadanga",
+              "Pincode": "700001",
+              "LeadType": "DM",
+              "LeadSource": "Whatsapp",
+              "LeadName": "Whatsapp_Message",
+              "SourceTo": "Offline"
+            }
+        response:
+          extracts: []
+      - !<!webrequest> 
+        id: Jadavpur WebRequest
+        actions:
+          - !<!position> 
+            id: Position-8
+            flowId: Handover
+            stepId: Text-1
+        clientActions: []
+        retries: 0
+        retryDelay: 0
+        waitForResponse: true
+        request:
+          queryParameters: {}
+          headers: {}
+          url: 'https://thirdpartyapi.extraaedge.com/api/SaveRequest'
+          verifySsl: false
+          method: POST
+          timeout: 60
+          body: |-
+            {
+              "AuthToken": "ICA-06-12-2017",
+              "Source": "ica",
+              "FirstName": "{fName}}",
+              "LastName": "{lName}}",
+              "Email": "{Email}",
+              "MobileNumber": "{{$conversationClientId}}",
+              "State": "West Bengal",
+              "Location": "Kolkata",
+              "Center": "Jadavpur",
+              "Pincode": "700001",
+              "LeadType": "DM",
+              "LeadSource": "Whatsapp",
+              "LeadName": "Whatsapp_Message",
+              "SourceTo": "Offline"
+            }
+        response:
+          extracts: []
+      - !<!webrequest> 
+        id: Tollygunge  WebRequest
+        actions:
+          - !<!position> 
+            id: Position-9
+            flowId: Handover
+            stepId: Text-1
+        clientActions: []
+        retries: 0
+        retryDelay: 0
+        waitForResponse: true
+        request:
+          queryParameters: {}
+          headers: {}
+          url: 'https://thirdpartyapi.extraaedge.com/api/SaveRequest'
+          verifySsl: false
+          method: POST
+          timeout: 60
+          body: |-
+            {
+              "AuthToken": "ICA-06-12-2017",
+              "Source": "ica",
+              "FirstName": "{fName}}",
+              "LastName": "{lName}}",
+              "Email": "{Email}",
+              "MobileNumber": "{{$conversationClientId}}",
+              "State": "West Bengal",
+              "Location": "Kolkata",
+              "Center": "Tollygunge",
+              "Pincode": "700001",
+              "LeadType": "DM",
+              "LeadSource": "Whatsapp",
+              "LeadName": "Whatsapp_Message",
+              "SourceTo": "Offline"
+            }
+        response:
+          extracts: []
+      - !<!webrequest> 
+        id: Ballygunge  WebRequest
+        actions:
+          - !<!position> 
+            id: Position-3
+            flowId: Handover
+            stepId: Text-1
+        clientActions: []
+        retries: 0
+        retryDelay: 0
+        waitForResponse: true
+        request:
+          queryParameters: {}
+          headers: {}
+          url: 'https://thirdpartyapi.extraaedge.com/api/SaveRequest'
+          verifySsl: false
+          method: POST
+          timeout: 60
+          body: |-
+            {
+              "AuthToken": "ICA-06-12-2017",
+              "Source": "ica",
+              "FirstName": "{fName}}",
+              "LastName": "{lName}}",
+              "Email": "{Email}",
+              "MobileNumber": "{{$conversationClientId}}",
+              "State": "West Bengal",
+              "Location": "Kolkata",
+              "Center": "Ballygunge",
+              "Pincode": "700001",
+              "LeadType": "DM",
+              "LeadSource": "Whatsapp",
+              "LeadName": "Whatsapp_Message",
+              "SourceTo": "Offline"
+            }
+        response:
+          extracts: []
+      - !<!webrequest> 
+        id: Dunlop  WebRequest
+        actions:
+          - !<!position> 
+            id: Position-10
+            flowId: Handover
+            stepId: Text-1
+        clientActions: []
+        retries: 0
+        retryDelay: 0
+        waitForResponse: true
+        request:
+          queryParameters: {}
+          headers: {}
+          url: 'https://thirdpartyapi.extraaedge.com/api/SaveRequest'
+          verifySsl: false
+          method: POST
+          timeout: 60
+          body: |-
+            {
+              "AuthToken": "ICA-06-12-2017",
+              "Source": "ica",
+              "FirstName": "{fName}}",
+              "LastName": "{lName}}",
+              "Email": "{Email}",
+              "MobileNumber": "{{$conversationClientId}}",
+              "State": "West Bengal",
+              "Location": "Kolkata",
+              "Center": "Dunlop",
+              "Pincode": "700001",
+              "LeadType": "DM",
+              "LeadSource": "Whatsapp",
+              "LeadName": "Whatsapp_Message",
+              "SourceTo": "Offline"
+            }
+        response:
+          extracts: []
+      - !<!webrequest> 
+        id: Barrackpore WebRequest
+        actions:
+          - !<!position> 
+            id: Position-2
+            flowId: Handover
+            stepId: Text-1
+        clientActions: []
+        retries: 0
+        retryDelay: 0
+        waitForResponse: true
+        request:
+          queryParameters: {}
+          headers: {}
+          url: 'https://thirdpartyapi.extraaedge.com/api/SaveRequest'
+          verifySsl: false
+          method: POST
+          timeout: 60
+          body: |-
+            {
+              "AuthToken": "ICA-06-12-2017",
+              "Source": "ica",
+              "FirstName": "{fName}}",
+              "LastName": "{lName}}",
+              "Email": "{Email}",
+              "MobileNumber": "{{$conversationClientId}}",
+              "State": "West Bengal",
+              "Location": "Kolkata",
+              "Center": "Barrackpore",
+              "Pincode": "700001",
+              "LeadType": "DM",
+              "LeadSource": "Whatsapp",
+              "LeadName": "Whatsapp_Message",
+              "SourceTo": "Offline"
+            }
+        response:
+          extracts: []
+      - !<!end_session> 
+        id: Terminate-1
+        actions: []
+        clientActions: []
+        resetRouter: false
+  - id: WB24ParganasNorthCenterSelect
+    description: ''
+    steps:
+      - !<!text> 
+        id: Text-1
+        actions: []
+        clientActions: []
+        message: |-
+          24ParganasNorth!
+          Please select the center closest to you:
+
+          1. Barasat
+          2. Sodepur
+      - !<!end_session> 
+        id: Terminate-1
+        actions: []
+        clientActions: []
+        resetRouter: false
+  - id: WBasansolCenterSelect
+    description: ''
+    steps:
+      - !<!text> 
+        id: Text-1
+        actions: []
+        clientActions: []
+        message: |-
+          Asansol!
+          Please select the center closest to you:
+
+          1. Asansol Center
+          2. Asansol-CIA (PMKK) Center
+      - !<!end_session> 
+        id: Terminate-1
+        actions: []
+        clientActions: []
+        resetRouter: false
+  - id: WBhooghlyCenterSelect
+    description: ''
+    steps:
+      - !<!text> 
+        id: Text-1
+        actions: []
+        clientActions: []
+        message: |-
+          Hooghly!
+          Please select the center closest to you:
+
+          1. Chandannagar
+          2. Serampore
+      - !<!end_session> 
+        id: Terminate-1
+        actions: []
+        clientActions: []
+        resetRouter: false
+  - id: WBrestCenterSelect
+    description: ''
+    steps:
+      - !<!text> 
+        id: Text-1
+        actions: []
+        clientActions: []
+        message: |-
+          Rest of West Bengal!
+          Please select the center closest to you:
+
+          1. Howrah Center
+          2. Durgapore (Durgapur) Center
+          3. Coochbehar Center
+          4. Midnapur Center
+          5. Nadia (Kalyani) Center
+          6. Siliguri Center
+          7. Kharagpur Center
+      - !<!end_session> 
+        id: Terminate-1
+        actions: []
+        clientActions: []
+        resetRouter: false
+  - id: Handover
+    description: ''
+    steps:
+      - !<!text> 
+        id: Text-1
+        actions: []
+        clientActions: []
+        message: >-
+          Thank you very much for filling in the details.
+
+
+          Your enquiry has been forwarded to the academic advisor. We will get
+          in touch shortly. Meanwhile, you can download the brochure from here.
+
+
+          shorturl.at/pCFL8
+      - !<!routing_mutation> 
+        id: RoutingMutation-1
+        actions: []
+        clientActions: []
+        mutations:
+          - !<!disable_component> 
+            componentId: CmBot
+        context: {}
+      - !<!end_session> 
+        id: Terminate-1
+        actions: []
+        clientActions: []
+        resetRouter: false
+  - id: Modular courses
+    description: ''
+    steps:
+      - !<!end_session> 
+        id: Terminate-1
+        actions: []
+        clientActions: []
+        resetRouter: false
